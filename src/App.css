@@ -112,3 +112,66 @@ th {
 tr:nth-child(even) {
   background: #f8f8f8;
 }
+
+.nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.nav button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #eee;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.nav-active {
+  background: #009639 !important;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* mobile responsive */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.subtext {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.top_title{
+  color: #009639;
+}
