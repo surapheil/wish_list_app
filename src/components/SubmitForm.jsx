@@ -3,45 +3,34 @@ import { useState } from "react";
 function SubmitForm() {
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");
-  const [wishlist, setWishlist] = useState("");
-  const [priority, setPriority] = useState("Medium");
-  const [hoursSaved, setHoursSaved] = useState("");
+  const [wishKnew, setWishKnew] = useState("");
+  const [wishHad, setWishHad] = useState("");
   const [message, setMessage] = useState("");
 
   const submitForm = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwt69AxYBHXjUVVIR_DDyPhuR2ywFyMrzHWWnrLmLXN5AiyXef4jDjqETHWPLwZ9KA/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbwt69AxYBHXjUVVIR_DDyPhuR2ywFyMrzHWWnrLmLXN5AiyXef4jDjqETHWPLwZ9KA/exec", {
       method: "POST",
       body: JSON.stringify({
         name,
         department,
-        wishlist,
-        priority, // Kept to prevent backend errors
-        hoursSaved, // Kept to prevent backend errors
-        points: 5,
+        wishlist: wishKnew,   // → Column D (Wish List)
+        priority: wishHad,    // → Column E (repurposed as "I wish I had")
+        hoursSaved: "",       // → Column F (left blank)
+        points: 5,            // → Column G
       }),
     });
 
-    const result = await response.json();
-
-    if (result.success) {
-      setMessage("✅ Idea submitted successfully!");
-
-      setName("");
-      setDepartment("");
-      setWishlist("");
-      setPriority("Medium");
-      setHoursSaved("");
-    }
+    setMessage("✅ Idea submitted — 5 points added!");
+    setName(""); setDepartment(""); setWishKnew(""); setWishHad("");
+    setTimeout(() => setMessage(""), 4000);
   };
 
   return (
     <>
-      <h2 className="top_title">Submit New Idea</h2>
-      <p className="subtext">
-        Describe repetitive work that can be automated or improved.
-      </p>
+      <h2 className="top_title">Submit a new idea</h2>
+      <p className="subtext">Share what's slowing you down — every idea earns 5 points.</p>
 
       <form onSubmit={submitForm} className="form">
         <div className="grid">
@@ -54,7 +43,6 @@ function SubmitForm() {
               required
             />
           </div>
-
           <div className="form-group">
             <label>Department</label>
             <select
@@ -63,35 +51,41 @@ function SubmitForm() {
               onChange={(e) => setDepartment(e.target.value)}
               required
             >
-              <option value="">Select Department</option>
+              <option value="">Select department</option>
               <option>Sales</option>
               <option>Marketing</option>
               <option>Finance</option>
               <option>IT</option>
-              <option value="HR">HR</option>
-              <option value="Supply Chain">Supply Chain</option>
+              <option>HR</option>
+              <option>Supply Chain</option>
+              <option>Legal</option>
             </select>
           </div>
         </div>
 
-        {/* Enhanced Wish List Section */}
-        <div className="form-group wishlist-container">
-          <label className="wishlist-label">Wish List / Pain Point</label>
-          <p className="wishlist-hint">Be as specific as possible about the current manual process.</p>
+        <div className="form-group">
+          <label>I wish I knew...</label>
           <textarea
-            className="form-control textarea enhanced-textarea"
-            value={wishlist}
-            onChange={(e) => setWishlist(e.target.value)}
-            required
-            rows="5"
-            placeholder="e.g., I spend 3 hours every Friday manually copying data from our field tracking spreadsheets into the master report..."
+            className="form-control textarea"
+            value={wishKnew}
+            onChange={(e) => setWishKnew(e.target.value)}
+            rows="3"
+            placeholder="e.g., I wish I knew what competitors are selling in my outlets — I only find out weeks later when customers mention it."
           />
         </div>
 
-        <button className="submit-btn" type="submit">
-          Submit Idea (+5 Points)
-        </button>
+        <div className="form-group">
+          <label>I wish I had...</label>
+          <textarea
+            className="form-control textarea"
+            value={wishHad}
+            onChange={(e) => setWishHad(e.target.value)}
+            rows="3"
+            placeholder="e.g., I wish I had a weekly summary of my team's activity automatically sent to my inbox every Monday morning."
+          />
+        </div>
 
+        <button className="submit-btn" type="submit">Submit idea (+5 points)</button>
         {message && <div className="message">{message}</div>}
       </form>
     </>
