@@ -17,8 +17,8 @@ function SubmitForm() {
         name,
         department,
         wishlist,
-        priority,
-        hoursSaved,
+        priority, // Kept to prevent backend errors
+        hoursSaved, // Kept to prevent backend errors
         points: 5,
       }),
     });
@@ -45,83 +45,55 @@ function SubmitForm() {
 
       <form onSubmit={submitForm} className="form">
         <div className="grid">
-            <div className="form-group">
+          <div className="form-group">
             <label>Name</label>
             <input
-                className="form-control"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
             />
-            </div>
+          </div>
 
-            <div className="form-group">
+          <div className="form-group">
             <label>Department</label>
             <select
-                className="form-control"
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                required
+              className="form-control"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
             >
-                <option value="">Select Department</option>
-                <option>Sales</option>
-                <option>Logistics</option>
-                <option>Finance</option>
-                <option>IT</option>
+              <option value="">Select Department</option>
+              <option>Sales</option>
+              <option>Marketing</option>
+              <option>Finance</option>
+              <option>IT</option>
+              <option value="HR">HR</option>
+              <option value="Supply Chain">Supply Chain</option>
             </select>
-            </div>
+          </div>
         </div>
 
-        <div className="form-group">
-            <label>Wish List / Pain Point</label>
-            <textarea
-            className="form-control textarea"
+        {/* Enhanced Wish List Section */}
+        <div className="form-group wishlist-container">
+          <label className="wishlist-label">Wish List / Pain Point</label>
+          <p className="wishlist-hint">Be as specific as possible about the current manual process.</p>
+          <textarea
+            className="form-control textarea enhanced-textarea"
             value={wishlist}
             onChange={(e) => setWishlist(e.target.value)}
             required
-            rows="4"
-            />
-        </div>
-
-        <div className="grid">
-            <div className="form-group">
-            <label>Priority</label>
-            <select
-                className="form-control"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-            >
-                <option>Critical</option>
-                <option>High</option>
-                <option>Medium</option>
-                <option>Low</option>
-            </select>
-            </div>
-
-            <div className="form-group">
-            <label>Time Saved</label>
-            <select
-                className="form-control"
-                value={hoursSaved}
-                onChange={(e) => setHoursSaved(e.target.value)}
-                required
-            >
-                <option value="">Select</option>
-                <option>1-3 hours/week</option>
-                <option>3-5 hours/week</option>
-                <option>5-10 hours/week</option>
-                <option>10+ hours/week</option>
-            </select>
-            </div>
+            rows="5"
+            placeholder="e.g., I spend 3 hours every Friday manually copying data from our field tracking spreadsheets into the master report..."
+          />
         </div>
 
         <button className="submit-btn" type="submit">
-            Submit Idea (+5 Points)
+          Submit Idea (+5 Points)
         </button>
 
         {message && <div className="message">{message}</div>}
-        </form>
-      {message && <p>{message}</p>}
+      </form>
     </>
   );
 }
