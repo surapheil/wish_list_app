@@ -70,7 +70,7 @@ function SubmitForm() {
             value={wishKnew}
             onChange={(e) => setWishKnew(e.target.value)}
             rows="3"
-            placeholder="e.g., I wish I knew what competitors are selling in my outlets — I only find out weeks later when customers mention it."
+            placeholder="e.g., I wish I knew what competitors are selling in my outlets."
           />
         </div>
 
@@ -81,7 +81,7 @@ function SubmitForm() {
             value={wishHad}
             onChange={(e) => setWishHad(e.target.value)}
             rows="3"
-            placeholder="e.g., I wish I had a weekly summary of my team's activity automatically sent to my inbox every Monday morning."
+            placeholder="e.g., I wish I had an app that handled all my repetitive tasks automatically."
           />
         </div>
 
