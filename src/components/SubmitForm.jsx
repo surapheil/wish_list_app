@@ -101,7 +101,7 @@ function SubmitForm() {
             onChange={(e) => setWishKnew(e.target.value)}
             rows="3"
             disabled={isSubmitting}
-            placeholder="e.g. I wish I knew what slows down my daily work..."
+            placeholder="e.g. I wish I knew what my competetors are selling in my outlets"
           />
         </div>
 
@@ -113,7 +113,7 @@ function SubmitForm() {
             onChange={(e) => setWishHad(e.target.value)}
             rows="3"
             disabled={isSubmitting}
-            placeholder="e.g. I wish I had a tool that automates repetitive tasks..."
+            placeholder="e.g. I wish I had a tool that handled my repetitive tasks automatically..."
           />
         </div>
 
