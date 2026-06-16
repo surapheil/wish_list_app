@@ -6,31 +6,57 @@ function SubmitForm() {
   const [wishKnew, setWishKnew] = useState("");
   const [wishHad, setWishHad] = useState("");
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitForm = async (e) => {
     e.preventDefault();
 
-    await fetch("https://script.google.com/macros/s/AKfycbwt69AxYBHXjUVVIR_DDyPhuR2ywFyMrzHWWnrLmLXN5AiyXef4jDjqETHWPLwZ9KA/exec", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        department,
-        wishlist: wishKnew,   // → Column D (Wish List)
-        priority: wishHad,    // → Column E (repurposed as "I wish I had")
-        hoursSaved: "",       // → Column F (left blank)
-        points: 5,            // → Column G
-      }),
-    });
+    if (isSubmitting) return; // Prevent duplicate submissions
 
-    setMessage("✅ Idea submitted — 5 points added!");
-    setName(""); setDepartment(""); setWishKnew(""); setWishHad("");
-    setTimeout(() => setMessage(""), 4000);
+    setIsSubmitting(true);
+    setMessage("⏳ Submitting your idea...");
+
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbwt69AxYBHXjUVVIR_DDyPhuR2ywFyMrzHWWnrLmLXN5AiyXef4jDjqETHWPLwZ9KA/exec",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            department,
+            wishlist: wishKnew,
+            priority: wishHad,
+            hoursSaved: "",
+            points: 5,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
+      setMessage("✅ Idea submitted — 5 points added!");
+
+      setName("");
+      setDepartment("");
+      setWishKnew("");
+      setWishHad("");
+
+      setTimeout(() => setMessage(""), 4000);
+    } catch (error) {
+      setMessage("❌ Submission failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <>
       <h2 className="top_title">Submit a new idea</h2>
-      <p className="subtext">Share what's slowing you down — every idea earns 5 points.</p>
+      <p className="subtext">
+        Share what's slowing you down — every idea earns 5 points.
+      </p>
 
       <form onSubmit={submitForm} className="form">
         <div className="grid">
@@ -40,15 +66,18 @@ function SubmitForm() {
               className="form-control"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              disabled={isSubmitting}
               required
             />
           </div>
+
           <div className="form-group">
             <label>Department</label>
             <select
               className="form-control"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
+              disabled={isSubmitting}
               required
             >
               <option value="">Select department</option>
@@ -70,7 +99,7 @@ function SubmitForm() {
             value={wishKnew}
             onChange={(e) => setWishKnew(e.target.value)}
             rows="3"
-            placeholder="e.g., I wish I knew what competitors are selling in my outlets."
+            disabled={isSubmitting}
           />
         </div>
 
@@ -81,11 +110,20 @@ function SubmitForm() {
             value={wishHad}
             onChange={(e) => setWishHad(e.target.value)}
             rows="3"
-            placeholder="e.g., I wish I had an app that handled all my repetitive tasks automatically."
+            disabled={isSubmitting}
           />
         </div>
 
-        <button className="submit-btn" type="submit">Submit idea (+5 points)</button>
+        <button
+          className="submit-btn"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting
+            ? "Submitting..."
+            : "Submit idea (+5 points)"}
+        </button>
+
         {message && <div className="message">{message}</div>}
       </form>
     </>
