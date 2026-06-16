@@ -14,7 +14,7 @@ function SubmitForm() {
     if (isSubmitting) return; // Prevent duplicate submissions
 
     setIsSubmitting(true);
-    setMessage("⏳ Submitting your idea...");
+    setMessage("Submitting your idea...");
 
     try {
       const response = await fetch(
@@ -36,7 +36,7 @@ function SubmitForm() {
         throw new Error("Submission failed");
       }
 
-      setMessage("✅ Idea submitted — 5 points added!");
+      setMessage("Idea submitted — 5 points added!");
 
       setName("");
       setDepartment("");
@@ -45,7 +45,7 @@ function SubmitForm() {
 
       setTimeout(() => setMessage(""), 4000);
     } catch (error) {
-      setMessage("❌ Submission failed. Please try again.");
+      setMessage("Submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -68,6 +68,7 @@ function SubmitForm() {
               onChange={(e) => setName(e.target.value)}
               disabled={isSubmitting}
               required
+              placeholder="Enter your full name"
             />
           </div>
 
@@ -100,6 +101,7 @@ function SubmitForm() {
             onChange={(e) => setWishKnew(e.target.value)}
             rows="3"
             disabled={isSubmitting}
+            placeholder="e.g. I wish I knew what slows down my daily work..."
           />
         </div>
 
@@ -111,6 +113,7 @@ function SubmitForm() {
             onChange={(e) => setWishHad(e.target.value)}
             rows="3"
             disabled={isSubmitting}
+            placeholder="e.g. I wish I had a tool that automates repetitive tasks..."
           />
         </div>
 
@@ -119,9 +122,7 @@ function SubmitForm() {
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting
-            ? "Submitting..."
-            : "Submit idea (+5 points)"}
+          {isSubmitting ? "Submitting..." : "Submit idea (+5 points)"}
         </button>
 
         {message && <div className="message">{message}</div>}
